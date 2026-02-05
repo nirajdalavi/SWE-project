@@ -1,0 +1,10 @@
+# Ignore the workspace selector component
+src/components/WorkspaceSelector.js
+
+# Ignore global styles
+# src/App.css
+
+# Ignore test setup and config
+src/setupTests.js
+src/reportWebVitals.js
+# src/index.css

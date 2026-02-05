@@ -1,0 +1,73 @@
+graph TB
+    %% Google Cloud Platform - Primary Infrastructure
+    subgraph "Partner - GCP Environment"
+        subgraph "Control Plane"
+            subgraph "Front End"
+                LB[Cloud Load Balancer<br/>SSL Termination]
+            end
+            
+            subgraph "Compute"
+                FE[React Frontend<br/>User Interface]
+                API[FastAPI Backend<br/>AI Processing Engine]
+            end
+            
+            subgraph "Database"
+                REDIS[Redis Cache<br/>Session & Job Queue]
+            end
+        end
+        
+        subgraph "Data Plane"
+            subgraph "Data plane Compute"
+                AI[AI/ML Processing<br/>Document Analysis]
+                VECTOR[Vector Search<br/>Semantic Matching]
+            end
+            
+            subgraph "Data plane Database/Storage"
+                QDRANT[Qdrant Vector DB<br/>Document Embeddings]
+                STORAGE[Persistent Storage<br/>Documents & Results]
+            end
+        end
+    end
+
+    %% Supporting Infrastructure - Other Cloud
+    subgraph "Partner - Other Cloud Service Provider"
+        subgraph "Control Plane"
+            subgraph "Monitoring/Logging"
+                MONITOR[GitHub Actions<br/>CI/CD Pipeline]
+                LOGS[Code Repository<br/>Version Control]
+            end
+        end
+    end
+
+    %% Supporting Infrastructure - On-premises
+    subgraph "Partner - On-prem Data Center"
+        subgraph "Control Plane"
+            subgraph "Legacy Server"
+                LEGACY[External APIs<br/>OpenRouter, Google Drive]
+            end
+        end
+    end
+
+    %% Data Flow Connections
+    LB --> FE
+    LB --> API
+    API --> REDIS
+    API --> AI
+    API --> VECTOR
+    AI --> QDRANT
+    VECTOR --> QDRANT
+    AI --> STORAGE
+    VECTOR --> STORAGE
+    
+    %% Supporting Infrastructure Connections
+    MONITOR -.-> API
+    API --> LEGACY
+    
+    %% Styling
+    classDef gcp fill:#4285f4,stroke:#1a73e8,stroke-width:3px,color:#fff
+    classDef supporting fill:#f8f9fa,stroke:#5f6368,stroke-width:2px
+    classDef onprem fill:#e8f0fe,stroke:#1a73e8,stroke-width:2px
+    
+    class LB,FE,API,REDIS,AI,VECTOR,QDRANT,STORAGE gcp
+    class MONITOR,LOGS supporting
+    class LEGACY onprem

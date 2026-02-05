@@ -1,0 +1,98 @@
+graph TB
+
+    %% User Layer
+    subgraph "User Layer"
+        U1[Web Users]
+        U2[API Consumers]
+    end
+
+    %% Frontend Layer
+    subgraph "Frontend"
+        FE[React Frontend Port 3000 User Interface]
+    end
+
+    %% API Gateway Layer
+    subgraph "API Gateway"
+        GW[FastAPI Backend Port 8000 API Router]
+    end
+
+    %% Backend Services
+    subgraph "Backend Services"
+        BE[FastAPI Service Contract Analysis Vendor Recommendations]
+    end
+
+    %% Data Layer
+    subgraph "Data & Storage Services"
+        REDIS[Redis Port 6379 Cache and Job Queue]
+        QDRANT[Qdrant Vector DB Port 6333 Document Embeddings]
+    end
+
+    %% CI/CD Layer
+    subgraph "CI/CD Pipeline"
+        GHA[GitHub Actions Automated Deployment]
+        subgraph "Deployment Targets"
+            AWS[AWS EC2 aqeed-aws.cloud]
+            GCP[GCP Compute Engine aqeed-gcp.cloud]
+        end
+    end
+
+    %% External Services
+    subgraph "External Services"
+        EXT1[OpenRouter API AI Inference]
+        EXT2[Google Drive API File Integration]
+        EXT3[SMTP Services Email Delivery]
+        EXT4[Apache Airflow Score to CSV DAG]
+    end
+
+    %% User to Frontend
+    U1 --> FE
+    U2 --> GW
+
+    %% Frontend to Gateway
+    FE --> GW
+
+    %% Gateway to Backend
+    GW --> BE
+
+    %% Backend to Data Services
+    BE --> REDIS
+    BE --> QDRANT
+
+    %% Backend to External Services
+    BE --> EXT1
+    BE --> EXT2
+    BE --> EXT3
+    BE --> EXT4
+
+    %% CI/CD Connections
+    GHA -.->|Deploy on Push to Main| AWS
+    GHA -.->|Deploy on Push to Main| GCP
+    AWS -.->|Runs| GW
+    AWS -.->|Runs| BE
+    AWS -.->|Runs| FE
+    AWS -.->|Runs| REDIS
+    AWS -.->|Runs| QDRANT
+    GCP -.->|Runs| GW
+    GCP -.->|Runs| BE
+    GCP -.->|Runs| FE
+    GCP -.->|Runs| REDIS
+    GCP -.->|Runs| QDRANT
+
+    %% Styling
+    classDef frontend fill:#61dafb,stroke:#20232a,stroke-width:2px,color:#000
+    classDef gateway fill:#009485,stroke:#00695c,stroke-width:3px,color:#fff
+    classDef backend fill:#009688,stroke:#00695c,stroke-width:2px,color:#fff
+    classDef data fill:#f57c00,stroke:#e65100,stroke-width:2px,color:#fff
+    classDef cicd fill:#24292e,stroke:#000,stroke-width:2px,color:#fff
+    classDef external fill:#757575,stroke:#424242,stroke-width:2px,color:#fff
+    classDef user fill:#34a853,stroke:#137333,stroke-width:2px,color:#fff
+    classDef cloud fill:#ff9800,stroke:#f57c00,stroke-width:2px,color:#fff
+
+    class FE frontend
+    class GW gateway
+    class BE backend
+    class REDIS,QDRANT data
+    class GHA cicd
+    class EXT1,EXT2,EXT3,EXT4 external
+    class U1,U2 user
+    class AWS,GCP cloud

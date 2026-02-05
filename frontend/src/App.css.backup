@@ -1,0 +1,607 @@
+/* frontend/src/App.css - Allyin Compass Design System */
+
+/* Root CSS Variables for Color Palette */
+:root {
+  --color-bg: #F3F4F6;              /* Main app background */
+  --color-card: #FFFFFF;           /* Card backgrounds */
+  --color-sidebar: #FFFFFF;        /* Sidebar background */
+  --color-primary: #7B5CFF;        /* Purple accent (buttons, highlights) */
+  --color-secondary: #F3F4F6;      /* Secondary (hover, unselected buttons) */
+  --color-accent: #00E599;         /* Success/green button */
+  --color-danger: #FF4D4F;         /* Error/red button or icon */
+  --color-text: #1E1E1E;           /* Primary text */
+  --color-muted: #7B7B7B;          /* Muted text or labels */
+  --color-border: #E5E7EB;         /* Light gray for dividers and outlines */
+
+  --color-chip-bg: #F3F4F6;        /* Background of file chips */
+  --color-chip-text: #414349;      /* Text in chips */
+
+  --color-btn-primary: #7B5CFF;    /* Primary purple button */
+  --color-btn-secondary: #E5E7EB;  /* Gray button */
+  --color-btn-text: #FFFFFF;
+
+  --color-input-bg: #FFFFFF;
+  --color-input-border: #D1D5DB;   /* Matches soft border on textareas/inputs */
+}
+
+[data-theme='dark'] {
+  --color-bg: #10141c;
+  --color-sidebar: #10141c;
+  --color-card: #222c44;
+  --color-secondary: #44404b;
+  --color-text: #ffffff;
+  --color-secondary-text: #c1c1c1;
+  --color-muted: #71717a;
+  --color-accent-primary: #8b5cf6;
+  --color-accent-secondary: #6676ea;
+  --color-success: #22c55e;
+  --color-warning: #f59e0b;
+  --color-error: #ef4444;
+  --color-border: #2e2e2e;
+  --color-input-bg: #222c44;
+  --color-input-border: #3f3f3f;
+  --color-card: #1e1f23;
+  --color-secondary: #2e3242;  --color-border: #3a3a3a;
+  --color-muted: #a1a1aa;
+  --color-input-bg: #2b2d36;
+  --color-input-border: #444654;
+  --color-chip-bg: #3c3e4a;
+  --color-chip-text: #e0e0e0;
+  --color-btn-primary: #8E7CFF;
+  --color-btn-secondary: #8b5cf6; /* Match primary for now */
+  --color-btn-text: #ffffff;
+  --color-text: #ffffff;
+  --color-sidebar-bg: #1f1f2e;
+  --color-sidebar-border: #33344a;
+  --color-sidebar-text: #e0e0e0;
+  --color-sidebar-hover: #2a2a3d;
+  --color-sidebar-selected: linear-gradient(90deg, #8e7cff, #627aff);
+  --color-panel: #1f1f2e;
+  --color-border: #3b3b4f;
+  --color-text: #e5e5e5;
+  --color-hover: #2a2a3d;
+}
+
+
+
+/* Global Base Styles */
+body, html, #root {
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: 'Inter', Arial, sans-serif; /* Using Inter as per design system */
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box; /* Ensure padding/border is included in element's total width/height */
+  max-width: 100vw;
+  overflow-x: hidden; /* Prevent horizontal scrolling */
+  min-height: 100vh;
+}
+
+/* Typography */
+h1 {
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--color-text);
+  margin-bottom: 1rem;
+}
+
+h2 {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--color-text);
+  margin-bottom: 1rem;
+}
+
+h3 {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--color-text);
+  margin-bottom: 1rem;
+}
+
+h4 {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--color-text);
+  margin-bottom: 0.8rem;
+}
+
+p {
+  font-size: 16px;
+  font-weight: 400;
+  color: var(--color-text);
+}
+
+small, .small-text {
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--color-muted);
+}
+
+/* General Layout */
+.App {
+  display: flex;
+
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* .dashboard-header { 
+  background-color: var(--color-bg);
+  padding: 1.5rem 2rem;
+  border-bottom: 1px solid var(--color-border);
+  display: flex;
+
+  justify-content: space-between;
+  align-items: center;
+  color: var(--color-text);
+} */
+
+.main-container {
+  display: flex;
+
+  flex: 1;
+  background: var(--color-bg);
+  padding: 0; /* Remove padding here, add to sidebar/main-content */
+  gap: 2rem;
+}
+
+.sidebar {
+  width: 350px;
+  background: var(--color-sidebar);
+  padding: 2rem 1.5rem;
+  display: flex;
+
+  flex-direction: column;
+  gap: 2rem;
+  min-height: 100vh; /* Ensure sidebar stretches */
+  box-sizing: border-box;
+}
+
+.sidebar-logo {
+  display: flex;
+ /* Use flexbox to arrange items in a row */
+  flex-direction: row; /* Arrange children horizontally */
+  align-items: center; /* Vertically align items in the center of the row */
+  gap: 1rem; /* Space between the logo image and the text container */
+  margin-bottom: 1rem;
+}
+
+.sidebar-logo-img {
+  height: 100px; /* Keep logo image size */
+  width: auto;
+  margin-right: 0; /* No margin-right needed here as 'gap' handles spacing */
+  margin-bottom: 0; /* No margin-bottom needed as it's in a row now */
+}
+
+/* Container for the text elements (Aqeed.ai and Powered by) */
+.sidebar-logo-text-container {
+  display: flex;
+
+  flex-direction: column; /* Stack the text elements vertically */
+  align-items: flex-start; /* Align text items to the left within their column */
+  justify-content: center; /*Vertically center the text block if needed  */
+  flex-grow: 1; /* Allow this container to take up available horizontal space */
+}
+
+.sidebar-logo-text {
+  color: var(--color-text);
+  font-size: 1.5rem; /* Main text larger */
+  font-weight: bold; /* Keep it bold */
+  line-height: 1.2; /* Adjust line height for stacking */
+  margin-bottom: 0; /* Remove any default margin that pushes "Powered by" down too much */
+  text-align: center;
+  width: 70%;
+}
+
+.powered-by-text {
+  font-size: 0.8rem; /* Slightly larger than 0.75rem for better readability, or keep 0.75rem if preferred */
+  font-weight: bold;
+  color: var(--color-muted); /* Muted color */
+  margin-top: 0.2rem; /* Small margin to separate from "Aqeed.ai" */
+  text-transform: none; /* REMOVE uppercase transformation */
+  letter-spacing: normal; /* REMOVE letter spacing if it was causing issues */
+  line-height: 1; /* Tighten line height for smaller text */
+  text-align: center;
+  width: 70%;
+}
+
+
+.sidebar .section-title {
+  color: var(--color-muted);
+  font-size: 0.9rem;
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.sidebar .workspace-selector,
+.sidebar .prompt-manager,
+.sidebar .metrics-chart,
+.sidebar .file-upload-section { /* Added class for FileUpload parent */
+  background: var(--color-card);
+  border-radius: 12px;
+  padding: 1rem;
+  margin-bottom: 2rem;
+  margin-bottom: 1.5rem; /* Consistent spacing between sections */
+  box-shadow: 0 2px 8px 0 rgba(0,0,0,0.08);
+  margin-top: 2rem;
+}
+
+.sidebar .workspace-selector h3,
+.sidebar .prompt-manager h3,
+.sidebar .metrics-chart h3,
+.sidebar .file-upload-section h3 {
+  color: var(--color-text);
+  margin-top: 0;
+  margin-bottom: 1rem;
+}
+
+
+.sidebar select {
+  width: 100%;
+  padding: 0.5rem;
+  border-radius: 6px;
+
+  background-color: var(--color-input-bg);
+  color: var(--color-text);
+  font-size: 1rem;
+  margin-bottom: 1rem;
+}
+
+.sidebar input[type="text"],
+.sidebar input[type="number"] {
+  width: calc(100% - 16px); /* Adjust for padding */
+  padding: 0.5rem;
+  border-radius: 6px;
+  border: 1px solid var(--color-input-border);
+  background-color: var(--color-input-bg);
+  color: var(--color-text);
+  font-size: 1rem;
+  margin-bottom: 1rem;
+}
+
+.sidebar .workspace-selector,
+.sidebar .prompt-manager,
+.sidebar .metrics-chart-card,
+.sidebar .file-upload-section,
+.sidebar .evaluation-mode-card { /* Make sure 'evaluation-mode-card' is in this group */
+  margin-bottom: 0; /* Handled by sidebar gap */
+  padding: 1.2rem; /* Default padding for these sidebar cards */
+}
+
+/* Specific styles for the evaluation mode card to make it smaller */
+.evaluation-mode-card {
+  padding: 0.5rem 1 rem; /* Reduced padding: top/bottom 0.8rem, left/right 1.2rem */ /* Changed: Reduced padding further */
+}
+
+.evaluation-mode-card .section-title {
+  margin-bottom: 0.4rem; /* Reduced margin-bottom for the title */ /* Changed: Reduced margin */
+}
+
+.evaluation-mode-card .mode-selector {
+  margin-bottom: 0.2rem; /* Reduced margin-bottom for the button group */ /* Changed: Reduced margin */
+  gap: 0.5rem; /* Adjusted gap between buttons if needed */ /* Changed: Adjusted gap */
+}
+
+/* Main Content Area */
+.main-content { /* Replaces .content */
+  flex: 1;
+  padding: 2.5rem 2rem;
+  background: var(--color-bg);
+  min-width: 0; /* Allow content to shrink */
+  display: flex;
+
+  flex-direction: column;
+  gap: 2rem; /* This provides spacing between direct flex children */
+}
+.quick-prompts-list {
+  display: flex;
+
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* Prompt button styles */
+.quick-prompt-button {
+  padding: 1rem;
+  border-radius: 12px;
+  border: 1px solid #dcdfe3;
+  background-color: #f9f9fb;
+  font-size: 1rem;
+  color: #555;
+  text-align: left;
+  transition: background 0.2s ease;
+}
+
+.quick-prompt-button.active {
+  background-color: #e6f0ff;
+  color: #0056d2;
+  font-weight: 600;
+}
+
+/* "Use This Prompt" button like the Figma */
+.use-prompt-button-full {
+  background: linear-gradient(90deg, #00c881, #00a97f);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  padding: 1rem;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.mode-selector-vertical button:hover {
+  background: var(--color-hover);
+}
+
+.mode-selector-vertical button.active {
+  background: linear-gradient(90deg, #6C63FF, #8C49FF);
+  color: white;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
+}
+
+.mode-selector-vertical button.active .icon {
+  color: white;
+}
+
+.mode-selector-vertical .icon {
+  font-size: 1.25rem;
+  transition: color 0.3s ease;
+box-shadow: 0 4px 10px rgba(0, 200, 129, 0.25);
+  transition: background 0.2s ease;
+}
+
+.use-prompt-button-full:hover {
+  background: linear-gradient(90deg, #00b872, #009a72);
+}
+
+
+
+.quick-prompts-list {
+  display: flex;
+
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* Prompt button styles */
+.quick-prompt-button {
+  padding: 1rem;
+  border-radius: 12px;
+
+  background-color: var(--color-secondary);
+  font-size: 1rem;
+  color: var(--color-text);
+  text-align: left;
+  transition: background 0.2s ease;
+}
+
+.quick-prompt-button.active {
+  background-color: var(--color-primary);
+  color: var(--color-btn-text);
+}
+
+/* "Use This Prompt" button like the Figma */
+.use-prompt-button-full {
+  background: linear-gradient(90deg, #00c881, #00a97f);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  padding: 1rem;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.mode-selector-vertical button:hover {
+  background: var(--color-hover);
+}
+
+.mode-selector-vertical button.active {
+  background: linear-gradient(90deg, #6C63FF, #8C49FF);
+  color: white;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
+}
+
+.mode-selector-vertical button.active .icon {
+  color: white;
+}
+
+.mode-selector-vertical .icon {
+  font-size: 1.25rem;
+  transition: color 0.3s ease;
+box-shadow: 0 4px 10px rgba(0, 200, 129, 0.25);
+  transition: background 0.2s ease;
+}
+
+.use-prompt-button-full:hover {
+  background: linear-gradient(90deg, #00b872, #009a72);
+}
+.theme-toggle-button {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  z-index: 1000;
+}
+
+.theme-toggle-button button {
+  padding: 8px 14px;
+  background-color: var(--color-secondary);
+  color: var(--color-text);
+
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.mode-selector-vertical button:hover {
+  background: var(--color-hover);
+}
+
+.mode-selector-vertical button.active {
+  background: linear-gradient(90deg, #6C63FF, #8C49FF);
+  color: white;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
+}
+
+.mode-selector-vertical button.active .icon {
+  color: white;
+}
+
+.mode-selector-vertical .icon {
+  font-size: 1.25rem;
+  transition: color 0.3s ease;
+}  font-size: 0.9rem;
+  transition: background-color 0.3s;
+}
+
+.theme-toggle-button button:hover {
+  background-color: var(--color-border);
+}
+
+.card {
+  background: var(--color-card);
+  border-radius: 12px;
+  padding: 2rem;
+  box-shadow: 0 2px 8px 0 rgba(0,0,0,0.08);
+}
+
+[data-theme="dark"] .card {
+  background-color: #1e1f23; /* dark card bg */
+  border: 1px solid #2e2f36; /* subtle border */
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+
+.card-title {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 1.2rem;
+  color: var(--color-text);
+}
+
+/* Buttons */
+.button {
+  background: var(--color-btn-primary);
+  color: var(--color-btn-text);
+  border: none;
+  border-radius: 8px;
+  padding: 0.7rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.mode-selector-vertical button:hover {
+  background: var(--color-hover);
+}
+
+.mode-selector-vertical button.active {
+  background: linear-gradient(90deg, #6C63FF, #8C49FF);
+  color: white;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
+}
+
+.mode-selector-vertical button.active .icon {
+  color: white;
+}
+
+.mode-selector-vertical .icon {
+  font-size: 1.25rem;
+  transition: color 0.3s ease;
+}  margin-right: 1rem;
+  transition: background 0.2s;
+}
+
+.button.secondary {
+  background: var(--color-btn-secondary);
+  color: var(--color-text);
+
+}
+
+.button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.button:hover:not(:disabled) {
+  filter: brightness(1.1); /* Slight hover effect */
+}
+
+.mode-selector-vertical {
+  display: flex;
+
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.mode-selector-vertical button {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: var(--color-panel);
+  color: var(--color-text);
+  padding: 0.75rem 1rem;
+  border-radius: 1.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  width: 100%;
+  transition: background 0.2s, color 0.2s;
+  border: none;
+  cursor: pointer;
+}
+
+.mode-selector-vertical button:hover {
+  background: var(--color-hover);
+}
+
+.mode-selector-vertical button.active {
+  background: linear-gradient(90deg, #6C63FF, #8C49FF);
+  color: white;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
+}
+
+.mode-selector-vertical button.active .icon {
+  color: white;
+}
+
+.mode-selector-vertical .icon {
+  font-size: 1.25rem;
+  transition: color 0.3s ease;
+}}}
+
+}
+
+.quick-prompt-button:hover {
+  background-color: var(--color-border);
+}
+
+/* Loading Animation */
+.loading-icon {
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Criteria Extraction Loading State */
+.criteria-extracting {
+  background: var(--color-secondary);
+  border-radius: 8px;
+  padding: 2rem;
+  text-align: center;
+  margin: 1rem 0;
+}
+
+.criteria-extracting h4 {
+  color: var(--color-primary);
+  margin-bottom: 1rem;
+}
+
+.criteria-extracting p {
+  color: var(--color-muted);
+  margin-top: 1rem;
+}

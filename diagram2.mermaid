@@ -1,0 +1,94 @@
+graph TB
+    %% User Layer
+    subgraph "User Layer"
+        U1[Enterprise Users]
+        U2[API Consumers]
+        U3[Web Interface Users]
+    end
+
+    %% Google Cloud Platform - Primary Infrastructure
+    subgraph "Google Cloud Platform - Primary Compute & Data Plane"
+        subgraph "GCP Compute Engine"
+            subgraph "Application Stack"
+                APP1[FastAPI Backend<br/>AI Processing Engine]
+                APP2[React Frontend<br/>User Interface]
+            end
+            
+            subgraph "Data Layer"
+                QDRANT[Qdrant Vector Database<br/>Document Embeddings]
+                REDIS[Redis Cache<br/>Session &amp; Job Queue]
+                STORAGE[Persistent Storage<br/>Documents &amp; Results]
+            end
+            
+            subgraph "AI/ML Services"
+                AI1[Document Processing<br/>PDF/Word Analysis]
+                AI2[Vector Search<br/>Semantic Matching]
+                AI3[Scoring Algorithms<br/>Vendor Evaluation]
+                AI4[Report Generation<br/>PDF/DOCX Output]
+            end
+        end
+        
+        subgraph "GCP Networking"
+            LB[Nginx Load Balancer<br/>SSL Termination & Routing]
+            FW[Firewall Rules<br/>Security Groups]
+            DNS[Cloud DNS<br/>aqeed-gcp.cloud]
+        end
+        
+        subgraph "GCP Security"
+            SSL[SSL Certificates<br/>Let's Encrypt]
+            AUTH[Authentication<br/>License Management]
+            ENCRYPT[Data Encryption<br/>At Rest &amp; Transit]
+        end
+    end
+
+    %% Supporting Infrastructure (Non-GCP)
+    subgraph "Supporting Infrastructure - Other Platforms"
+        subgraph "GitHub (CI/CD)"
+            GH1[GitHub Actions<br/>Deployment Pipeline]
+            GH2[Code Repository<br/>Version Control]
+        end
+        
+        subgraph "External Services"
+            EXT1[OpenRouter API<br/>AI Inference]
+            EXT2[Google Drive API<br/>File Integration]
+            EXT3[Email Services<br/>SMTP Delivery]
+        end
+    end
+
+    %% Data Flow Connections
+    U1 --> LB
+    U2 --> LB
+    U3 --> LB
+    
+    LB --> APP1
+    LB --> APP2
+    
+    APP1 --> QDRANT
+    APP1 --> REDIS
+    APP1 --> STORAGE
+    
+    APP1 --> AI1
+    APP1 --> AI2
+    APP1 --> AI3
+    APP1 --> AI4
+    
+    %% Supporting Infrastructure Connections
+    GH1 -.-> APP1
+    APP1 --> EXT1
+    APP1 --> EXT2
+    APP1 --> EXT3
+    
+    %% Security Connections
+    SSL --> LB
+    AUTH --> APP1
+    ENCRYPT --> STORAGE
+    ENCRYPT --> QDRANT
+    
+    %% Styling
+    classDef gcp fill:#4285f4,stroke:#1a73e8,stroke-width:3px,color:#fff
+    classDef supporting fill:#f8f9fa,stroke:#5f6368,stroke-width:2px
+    classDef user fill:#34a853,stroke:#137333,stroke-width:2px,color:#fff
+    
+    class APP1,APP2,QDRANT,REDIS,STORAGE,AI1,AI2,AI3,AI4,LB,FW,DNS,SSL,AUTH,ENCRYPT gcp
+    class GH1,GH2,EXT1,EXT2,EXT3 supporting
+    class U1,U2,U3 user

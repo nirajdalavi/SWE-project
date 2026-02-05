@@ -1,0 +1,85 @@
+services:
+
+  redis:
+    image: redis:7-alpine
+    container_name: redis
+    ports:
+      - "6379:6379"
+    restart: always
+    volumes:
+      - redis_data:/data
+
+  qdrant:
+    image: qdrant/qdrant
+    container_name: qdrant
+    ports:
+      - "6333:6333"
+    volumes:
+      - qdrant_data:/qdrant/storage
+    restart: always
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+      args:
+        - REQUIREMENTS=./requirements.txt
+    container_name: fastapi-backend
+    ports:
+      - "8000:8000"
+    restart: always
+    depends_on:
+      - qdrant
+      - redis
+    networks:
+      - default
+    env_file:
+      - .env
+    volumes:
+      - .credentials:/.credentials 
+      - .credentials:/app/.credentials
+      - ~/.cache/pip:/root/.cache/pip
+      - ./data:/data
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        REACT_APP_BACKEND_HOST: localhost # Or your EC2 public IP
+    container_name: frontend-app
+    ports:
+      - "3000:3000"
+    restart: always
+    depends_on:
+      - backend
+    networks:
+      - default
+    env_file:
+      - .env
+
+  
+
+  # flower:
+  #   <<: *airflow-common
+  #   command: celery flower
+  #   profiles:
+  #     - flower
+  #   ports:
+  #     - "5555:5555"
+  #   healthcheck:
+  #     test: ["CMD", "curl", "--fail", "http://localhost:5555/"]
+  #     interval: 30s
+  #     timeout: 10s
+  #     retries: 5
+  #     start_period: 30s
+  #   restart: always
+  #   depends_on:
+  #     <<: *airflow-common-depends-on
+  #     airflow-init:
+  #       condition: service_completed_successfully
+
+volumes:
+  # postgres-db-volume:
+  qdrant_data:
+  redis_data:

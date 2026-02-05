@@ -1,0 +1,83 @@
+services:
+
+  nginx:
+    image: nginx:alpine
+    container_name: nginx-proxy
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx-gcp.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      - frontend
+      - backend
+      - qdrant
+    restart: always
+    networks:
+      - default
+
+  qdrant:
+    image: qdrant/qdrant
+    container_name: qdrant
+    ports:
+      - "6333:6333"
+    volumes:
+      - qdrant_data:/qdrant/storage
+    restart: always
+    networks:
+      - default
+
+  redis:
+    image: redis:7-alpine
+    container_name: redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    restart: always
+    networks:
+      - default
+    command: redis-server --appendonly yes --maxmemory 512mb --maxmemory-policy allkeys-lru
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+      args:
+        - REQUIREMENTS=./requirements.txt
+    container_name: fastapi-backend
+    restart: always
+    depends_on:
+      - qdrant
+      - redis
+    networks:
+      - default
+    env_file:
+      - .env
+    volumes:
+      - app_data:/data
+      - .credentials:/app/.credentials
+      - pip_cache:/root/.cache/pip
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        REACT_APP_BACKEND_HOST: https://aqeed-gcp.cloud
+        PUBLIC_URL: /
+    container_name: frontend-app
+    restart: always
+    depends_on:
+      - backend
+    networks:
+      - default
+    env_file:
+      - .env
+
+  
+
+volumes:
+  qdrant_data:
+  redis_data:
+  app_data:
+  pip_cache:

@@ -1,0 +1,13 @@
+{
+    "General": [
+        "new prompt for general category",
+        "another new prompt"
+    ],
+    "Technical": [
+        "check technical specs"
+    ],
+    "Financial": [],
+    "Legal & IP": [
+        "find IP clauses"
+    ]
+}
