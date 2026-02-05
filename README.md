@@ -1,6 +1,6 @@
-# AqeedAI
+# SWE project
 
-AqeedAI
+
 uvicorn main:app --reload --host 0.0.0.0 --port 8000 --loop asyncio --timeout-keep-alive 300 --log-level debug
 ## 📁 Directory Layout
 
