@@ -88,7 +88,7 @@ The `/score` endpoint in the backend API accepts a JSON payload like:
 ```json
 {
   "criterion": "project understanding",
-  "workspace_name": "allyin",
+  "workspace_name": "test",
   "max_score": 10
 }
 ```
